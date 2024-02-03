@@ -1,7 +1,6 @@
 ﻿using Confluent.Kafka;
 using Confluent.Kafka.Admin;
 using Confluent.SchemaRegistry;
-using Confluent.SchemaRegistry.Serdes;
 
 namespace Common;
 
@@ -75,18 +74,8 @@ public class ConfluentCloudFixture
         return producer;
     }
 
-    public IProducer<string, byte[]> CreateByteArrayProducer()
-    {
-        var producer = new ProducerBuilder<string, byte[]>(ProducerConfig).Build();
-        return producer;
-    }
-
     public CachedSchemaRegistryClient CreateSchemaRegistryClient()
     {
         return new(SchemaRegistryConfig());
-    }
-    public string GetSchemaRegistryUrl()
-    {
-        return SchemaRegistryConfig().Url;
     }
 }
