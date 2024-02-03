@@ -28,7 +28,8 @@ Abort the test after a few seconds.
 
 ### Step 3.2: View messages in the topic
 
-Go to the Confluent Cloud UI and view the messages in the topic. You will see that the messages are just byte arrays.
+Go to the Confluent Cloud UI and view the messages in the topic. You will see that the messages are in the byte array
+format.
 
 ### Step 3.3: Receive messages
 

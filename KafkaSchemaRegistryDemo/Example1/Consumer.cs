@@ -13,7 +13,7 @@ public class Consumer(ConfluentCloudFixture fixture, ITestOutputHelper testOutpu
     [Fact]
     public void ConsumeRawCSharpMessages()
     {
-        var consumer = fixture.CreateConsumer(Example1Config.Topic, new ByteArrayDeserializer<ChatMessage>());
+        var consumer = fixture.CreateConsumer(Example1Config.Topic, new ChatMessageDeserializer());
         while (true)
         {
             ConsumeResult<string, ChatMessage>? consumeResult = null;
@@ -38,7 +38,11 @@ public class Consumer(ConfluentCloudFixture fixture, ITestOutputHelper testOutpu
             {
                 testOutput.WriteLine($"Failed to deserialize message: {e.Message}");
                 // The message failed to deserialize so we should indicate to the broker that we have not processed the message and it should be redelivered to another consumer
-                consumer.Commit(consumeResult);
+                if (consumeResult != null)
+                {
+                    consumer.Commit(consumeResult);
+                }
+
                 break;
             }
         }

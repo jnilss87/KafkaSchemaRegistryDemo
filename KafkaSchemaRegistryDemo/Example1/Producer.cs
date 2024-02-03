@@ -12,8 +12,8 @@ public class Producer(ConfluentCloudFixture fixture, ITestOutputHelper testOutpu
     [Fact]
     public async Task ProduceRawCSharpMessages()
     {
-        var producer = fixture.CreateProducer(new ByteArraySerializer<Models.ChatMessage>());
-        var autoFixture = new AutoFixture.Fixture();
+        var producer = fixture.CreateProducer(new ChatMessageSerializer());
+        var autoFixture = new Fixture();
 
         for (var i = 0; i < 60; i++)
         {
