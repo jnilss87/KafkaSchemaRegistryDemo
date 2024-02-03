@@ -13,7 +13,7 @@ public class Consumer(ConfluentCloudFixture fixture, ITestOutputHelper testOutpu
     [Fact]
     public void ConsumeRawCSharpMessages()
     {
-        var consumer = fixture.CreateConsumer("test-topic-example1", new ByteArrayDeserializer<ChatMessage>());
+        var consumer = fixture.CreateConsumer(Example1Config.Topic, new ByteArrayDeserializer<ChatMessage>());
         while (true)
         {
             ConsumeResult<string, ChatMessage>? consumeResult = null;
@@ -51,7 +51,7 @@ public class Consumer(ConfluentCloudFixture fixture, ITestOutputHelper testOutpu
         var protobufDeserializer = new ProtobufDeserializer<Chat.V1.ChatMessage>();
 
         // Create the consumer with the ProtobufDeserializer
-        var consumer = fixture.CreateConsumer("test-topic-example1", protobufDeserializer.AsSyncOverAsync());
+        var consumer = fixture.CreateConsumer(Example1Config.Topic, protobufDeserializer.AsSyncOverAsync());
         while (true)
         {
             ConsumeResult<string, Chat.V1.ChatMessage>? consumeResult = null;

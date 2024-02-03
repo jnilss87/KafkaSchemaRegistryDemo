@@ -8,12 +8,12 @@ public class ConfluentCloud(ConfluentCloudFixture fixture) : IClassFixture<Confl
     [Fact]
     public async Task CreateTestTopic()
     {
-        await fixture.CreateTopic("test-topic-example1");
+        await fixture.CreateTopic(Example1Config.Topic);
     }
 
     [Fact]
     public async Task DeleteTestTopic()
     {
-        await fixture.DeleteTopic("test-topic-example1");
+        await fixture.DeleteTopic(Example1Config.Topic);
     }
 }

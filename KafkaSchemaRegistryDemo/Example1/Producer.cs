@@ -4,7 +4,6 @@ using Confluent.Kafka;
 using Confluent.SchemaRegistry.Serdes;
 using Xunit;
 using Xunit.Abstractions;
-using Xunit.Sdk;
 
 namespace Example1;
 
@@ -27,7 +26,7 @@ public class Producer(ConfluentCloudFixture fixture, ITestOutputHelper testOutpu
                 Value = chatMessage
             };
 
-            var result = await producer.ProduceAsync("test-topic-example1", message);
+            var result = await producer.ProduceAsync(Example1Config.Topic, message);
             testOutputHelper.WriteLine(result.Status != PersistenceStatus.Persisted
                 ? $"Failed to deliver message: {result.Status}"
                 : $"Delivered '{result.Key}' to '{result.TopicPartitionOffset}'");
@@ -60,7 +59,7 @@ public class Producer(ConfluentCloudFixture fixture, ITestOutputHelper testOutpu
                 Value = chatMessage
             };
 
-            var result = await producer.ProduceAsync("test-topic-example1", message);
+            var result = await producer.ProduceAsync(Example1Config.Topic, message);
             testOutputHelper.WriteLine(result.Status != PersistenceStatus.Persisted
                 ? $"Failed to deliver message: {result.Status}"
                 : $"Delivered '{result.Key}' to '{result.TopicPartitionOffset}'");
