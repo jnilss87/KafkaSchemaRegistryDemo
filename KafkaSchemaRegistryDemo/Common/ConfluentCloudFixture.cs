@@ -1,35 +1,61 @@
 ﻿using Confluent.Kafka;
+using Confluent.Kafka.Admin;
 
 namespace Common;
 
 public class ConfluentCloudFixture
 {
-    public void CreateTopic(string testTopic)
+    private static readonly ClientConfig ClientConfig = new()
     {
-    }
+        BootstrapServers = "pkc-e8mp5.eu-west-1.aws.confluent.cloud:9092",
+        SecurityProtocol = Confluent.Kafka.SecurityProtocol.SaslSsl,
+        SaslMechanism = Confluent.Kafka.SaslMechanism.Plain,
+        SaslUsername = "", // TODO: Add your key here
+        SaslPassword = "" // TODO: Add your secret here
+    };
 
-    public void DeleteTopic(string testTopic)
+    private static readonly ConsumerConfig ConsumerConfig = new(ClientConfig)
     {
-    }
+        GroupId = "example-one",
+        AutoOffsetReset = AutoOffsetReset.Earliest
+    };
 
-    public IConsumer<string, string> CreateConsumer(string testTopic)
+    private static readonly ProducerConfig ProducerConfig = new(ClientConfig)
     {
-        var consumer = new ConsumerBuilder<string, string>(new ConsumerConfig
+    };
+
+    public async Task CreateTopic(string testTopic)
+    {
+        var adminClientConfig = new AdminClientConfig(ClientConfig);
+        using var adminClient = new AdminClientBuilder(adminClientConfig).Build();
+        await adminClient.CreateTopicsAsync(new[]
         {
-            BootstrapServers = "localhost:9092",
-            GroupId = "test-group",
-            AutoOffsetReset = AutoOffsetReset.Earliest
-        }).Build();
+            new TopicSpecification
+            {
+                Name = testTopic,
+                Configs = [],
+                NumPartitions = 1
+            }
+        });
+    }
+
+    public async Task DeleteTopic(string testTopic)
+    {
+        var adminClientConfig = new AdminClientConfig(ClientConfig);
+        using var adminClient = new AdminClientBuilder(adminClientConfig).Build();
+        await adminClient.DeleteTopicsAsync(new[] { testTopic });
+    }
+
+    public IConsumer<string, byte[]> CreateByteArrayConsumer(string testTopic)
+    {
+        var consumer = new ConsumerBuilder<string, byte[]>(ConsumerConfig).Build();
         consumer.Subscribe(testTopic);
         return consumer;
     }
 
-    public IProducer<string, string> CreateProducer()
+    public IProducer<string, byte[]> CreateByteArrayProducer()
     {
-        var producer = new ProducerBuilder<string, string>(new ProducerConfig
-        {
-            BootstrapServers = "localhost:9092"
-        }).Build();
+        var producer = new ProducerBuilder<string, byte[]>(ProducerConfig).Build();
         return producer;
     }
 }

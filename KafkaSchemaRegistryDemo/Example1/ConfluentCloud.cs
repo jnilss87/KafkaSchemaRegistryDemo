@@ -6,14 +6,14 @@ namespace Example1;
 public class ConfluentCloud(ConfluentCloudFixture fixture) : IClassFixture<ConfluentCloudFixture>
 {
     [Fact]
-    public void CreateTestTopic()
+    public async Task CreateTestTopic()
     {
-        fixture.CreateTopic("test-topic");
+        await fixture.CreateTopic("test-topic-example1");
     }
 
     [Fact]
-    public void DeleteTestTopic()
+    public async Task DeleteTestTopic()
     {
-        fixture.DeleteTopic("test-topic");
+        await fixture.DeleteTopic("test-topic-example1");
     }
 }

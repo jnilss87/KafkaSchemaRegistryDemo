@@ -1,4 +1,5 @@
 ﻿using Common;
+using Example1.Models;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -7,9 +8,9 @@ namespace Example1;
 public class Consumer(ConfluentCloudFixture fixture, ITestOutputHelper testOutput) : IClassFixture<ConfluentCloudFixture>
 {
     [Fact]
-    public void Consume()
+    public void ConsumeRawCSharpMessages()
     {
-        var consumer = fixture.CreateConsumer("test-topic");
+        var consumer = fixture.CreateByteArrayConsumer("test-topic-example1");
         while (true)
         {
             var consumeResult = consumer.Consume();
@@ -18,7 +19,20 @@ public class Consumer(ConfluentCloudFixture fixture, ITestOutputHelper testOutpu
                 continue;
             }
 
-            testOutput.WriteLine($"Consumed message '{consumeResult.Message.Value}' at: '{consumeResult.TopicPartitionOffset}'.");
+            try
+            {
+                var message = ProtobufSerializer.DeserializeCSharpFromByteArray<ChatMessage>(consumeResult.Message.Value);
+                if (message == null)
+                {
+                    testOutput.WriteLine("Failed to deserialize message");
+                    continue;
+                }
+                testOutput.WriteLine($"Consumed message '{message.Message}' from '{message.User.Name}'");
+            }
+            catch (Exception e)
+            {
+                testOutput.WriteLine($"Failed to deserialize message: {e.Message}");
+            }
         }
     }
 }

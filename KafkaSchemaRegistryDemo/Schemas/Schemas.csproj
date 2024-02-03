@@ -7,5 +7,19 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.25.1"/>
+    <PackageReference Include="Grpc.Tools" Version="2.60.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 
+
+  <!-- This is used to generate from c# from protos when ide is using DEBUG -->
+  <ItemGroup Condition="'$(Configuration)'=='DEBUG'">
+    <Protobuf Include="Protos/**/*.proto" OutputDir="%(RelativeDir)..\..\Protos\Generated" ProtoRoot="Protos" CompileOutputs="false" GrpcServices="None"/>
+  </ItemGroup>
+  
 </Project>
