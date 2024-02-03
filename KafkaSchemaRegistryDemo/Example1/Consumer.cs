@@ -32,7 +32,7 @@ public class Consumer(ConfluentCloudFixture fixture, ITestOutputHelper testOutpu
                     continue;
                 }
 
-                testOutput.WriteLine($"User '{message.User.Name}' sent message '{message.Content}'");
+                testOutput.WriteLine($"{message.Timestamp}: User '{message.User.Name}' sent message '{message.Content}'");
             }
             catch (Exception e)
             {
@@ -74,7 +74,7 @@ public class Consumer(ConfluentCloudFixture fixture, ITestOutputHelper testOutpu
                     continue;
                 }
 
-                testOutput.WriteLine($"User '{message.User.Name}' sent message '{message.Content}'");
+                testOutput.WriteLine($"{message.Timestamp}: User '{message.User.Name}' sent message '{message.Content}'");
             }
             catch (Exception e)
             {

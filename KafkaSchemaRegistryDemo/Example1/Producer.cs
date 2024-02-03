@@ -18,7 +18,13 @@ public class Producer(ConfluentCloudFixture fixture, ITestOutputHelper testOutpu
         for (var i = 0; i < 60; i++)
         {
             // Create a new chat message
-            var chatMessage = autoFixture.Create<Models.ChatMessage>();
+            var chatMessage = autoFixture.Build<Models.ChatMessage>()
+                // Give the user a "real" name
+                .With(x => x.User, autoFixture.Build<Models.User>()
+                    .With(x => x.Name, new Bogus.DataSets.Name().FullName())
+                    .Create())
+                .With(x => x.Content, new Bogus.DataSets.Lorem().Sentence())
+                .Create();
 
             var message = new Message<string, Models.ChatMessage>
             {
