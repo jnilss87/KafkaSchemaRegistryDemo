@@ -55,9 +55,10 @@ public class Producer(ConfluentCloudFixture fixture, ITestOutputHelper testOutpu
             var chatMessage = autoFixture.Build<Chat.V1.ChatMessage>()
                 // Give the user a "real" name
                 .With(x => x.User, autoFixture.Build<Chat.V1.User>()
-                    .With(x => x.Name, autoFixture.Create<string>())
+                    .With(x => x.Name, new Bogus.DataSets.Name().FullName())
                     .Create())
-                .Create<Chat.V1.ChatMessage>();
+                .With(x => x.Content, new Bogus.DataSets.Lorem().Sentence())
+                .Create();
 
             var message = new Message<string, Chat.V1.ChatMessage>
             {
