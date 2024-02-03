@@ -1,40 +1,25 @@
 ﻿using System.Text;
 using System.Text.Json;
+using Confluent.Kafka;
 using Google.Protobuf;
 
 namespace Example1;
 
-public static class ProtobufSerializer
+public class ByteArraySerializer<T> : IAsyncSerializer<T>
 {
-    public static byte[] SerializeCSharpToByteArray<T>(T source)
+    public Task<byte[]> SerializeAsync(T data, SerializationContext context)
     {
-        // Create byte array from source (ordinary c# object, no .toByteArray() method available)
-        var json = JsonSerializer.Serialize(source);
+        var json = JsonSerializer.Serialize(data);
         var bytes = Encoding.UTF8.GetBytes(json);
-
-        // pack source into Any
-        return bytes;
+        return Task.FromResult(bytes);
     }
+}
 
-    public static T? DeserializeCSharpFromByteArray<T>(byte[] data)
+public class ByteArrayDeserializer<T> : IDeserializer<T>
+{
+    public T Deserialize(ReadOnlySpan<byte> data, bool isNull, SerializationContext context)
     {
-        // Unpack Any and deserialize to T
         var json = Encoding.UTF8.GetString(data);
-        return JsonSerializer.Deserialize<T>(json);
-    }
-
-    public static byte[] SerializeMessages<T>(T source)
-    {
-        if (source is IMessage message)
-        {
-            return message.ToByteArray();
-        }
-
-        throw new ArgumentException("Source type must be a protobuf message");
-    }
-
-    public static T DeserializeMessages<T>(byte[] data) where T : IMessage<T>, new()
-    {
-        return new MessageParser<T>(() => new T()).ParseFrom(data);
+        return JsonSerializer.Deserialize<T>(json) ?? throw new InvalidOperationException("Failed to deserialize message");
     }
 }

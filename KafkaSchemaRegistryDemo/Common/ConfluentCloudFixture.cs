@@ -1,5 +1,7 @@
 ﻿using Confluent.Kafka;
 using Confluent.Kafka.Admin;
+using Confluent.SchemaRegistry;
+using Confluent.SchemaRegistry.Serdes;
 
 namespace Common;
 
@@ -24,6 +26,18 @@ public class ConfluentCloudFixture
     {
     };
 
+    private static SchemaRegistryConfig SchemaRegistryConfig()
+    {
+        var config = new SchemaRegistryConfig
+        {
+            BasicAuthUserInfo = "", // TODO: Add the schema registry API key and secret <api-key>:<api-secret>
+            Url = "" // TODO: Add the schema registry URL
+        };
+        config.Set("auto.register.schemas",
+            "false"); // "true" or "false" (defaults to "true"), used to enable or disable automatic registration of schemas
+        return config;
+    }
+
     public async Task CreateTopic(string testTopic)
     {
         var adminClientConfig = new AdminClientConfig(ClientConfig);
@@ -46,16 +60,33 @@ public class ConfluentCloudFixture
         await adminClient.DeleteTopicsAsync(new[] { testTopic });
     }
 
-    public IConsumer<string, byte[]> CreateByteArrayConsumer(string testTopic)
+    public IConsumer<string, T> CreateConsumer<T>(string testTopic, IDeserializer<T> serializer)
     {
-        var consumer = new ConsumerBuilder<string, byte[]>(ConsumerConfig).Build();
+        var consumer = new ConsumerBuilder<string, T>(ConsumerConfig).SetValueDeserializer(serializer).Build();
         consumer.Subscribe(testTopic);
         return consumer;
+    }
+
+    public IProducer<string, T> CreateProducer<T>(IAsyncSerializer<T> serializer)
+    {
+        var producer = new ProducerBuilder<string, T>(ProducerConfig)
+            .SetValueSerializer(serializer)
+            .Build();
+        return producer;
     }
 
     public IProducer<string, byte[]> CreateByteArrayProducer()
     {
         var producer = new ProducerBuilder<string, byte[]>(ProducerConfig).Build();
         return producer;
+    }
+
+    public CachedSchemaRegistryClient CreateSchemaRegistryClient()
+    {
+        return new(SchemaRegistryConfig());
+    }
+    public string GetSchemaRegistryUrl()
+    {
+        return SchemaRegistryConfig().Url;
     }
 }

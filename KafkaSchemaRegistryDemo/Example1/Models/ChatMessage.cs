@@ -9,6 +9,6 @@ public class User
 public class ChatMessage
 {
     public User User { get; set; } = new();
-    public string Message { get; set; } = string.Empty;
+    public string Content { get; set; } = string.Empty;
     public DateTime Timestamp { get; set; } = DateTime.UtcNow;
 }

@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
+    <ProjectReference Include="..\Schemas\Schemas.csproj" />
   </ItemGroup>
 
   <ItemGroup>
