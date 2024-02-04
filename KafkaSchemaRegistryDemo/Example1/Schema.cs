@@ -27,6 +27,12 @@ public class Schema(ConfluentCloudFixture fixture, ITestOutputHelper testOutputH
         testOutputHelper.WriteLine($"Registered schema with id {schemaRegistryResult}");
     }
 
+    [Fact]
+    public async Task DeleteSchema()
+    {
+        await fixture.DeleteSubject(Example1Config.Topic + "-value");
+    }
+
 
     [Fact]
     public void PrintSchema()

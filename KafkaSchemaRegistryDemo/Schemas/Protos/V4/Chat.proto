@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package chat.v4;
+
+// Represents a user in the chat service
+message User {
+  string id = 1; // Unique ID of the user
+  string name = 2; // Name of the user
+}
+
+// Represents a server in the chat service
+message Server {
+  string id = 1; // Unique ID of the server
+  string name = 2; // Name of the server
+}
+
+// Represents a server permission for a user
+message ServerPermission {
+  string userId = 1; // ID of the user
+  string serverId = 2; // ID of the server
+  string permissionLevel = 3; // Permission level of the user for the server
+}
+
+message Channel {
+  string id = 1; // Unique ID of the channel
+  string name = 2; // Name of the channel
+  string serverId = 3; // ID of the server the channel belongs to
+}
+
+// Represents a single chat message
+message ChatMessage {
+  User user = 1; // User who sent the message
+  int64 timestamp = 2; // Timestamp of the message
+  string content = 3; // Content of the message
+  // mark as deprecated string channel = 4;
+  reserved 4;
+  Channel channel = 5; // Channel where the message was sent
+}

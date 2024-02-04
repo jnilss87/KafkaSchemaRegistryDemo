@@ -1,4 +1,6 @@
-﻿using Confluent.Kafka;
+﻿using System.Net.Http.Headers;
+using System.Text;
+using Confluent.Kafka;
 using Confluent.Kafka.Admin;
 using Confluent.SchemaRegistry;
 
@@ -77,5 +79,30 @@ public class ConfluentCloudFixture
     public CachedSchemaRegistryClient CreateSchemaRegistryClient()
     {
         return new(SchemaRegistryConfig());
+    }
+
+    public async Task DeleteSubject(string subject)
+    {
+        var httpClient = GetSchemaRegistryHttpClient();
+        var responseMessage = await httpClient.DeleteAsync($"/subjects/{subject}?permanent=true");
+
+        // Exception if not successful
+        if (!responseMessage.IsSuccessStatusCode)
+        {
+            var responseContent = await responseMessage.Content.ReadAsStringAsync();
+            throw new Exception(
+                $"Failed to delete schema for subject {subject}. Status code: {responseMessage.StatusCode}. Response: {responseContent}");
+        }
+    }
+
+    public HttpClient GetSchemaRegistryHttpClient()
+    {
+        var client = new HttpClient();
+        var schemaRegistryConfig = SchemaRegistryConfig();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic",
+            Convert.ToBase64String(Encoding.ASCII.GetBytes(schemaRegistryConfig.BasicAuthUserInfo)));
+        client.BaseAddress = new Uri(schemaRegistryConfig.Url);
+
+        return client;
     }
 }

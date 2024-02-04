@@ -85,4 +85,4 @@ for a timeout before it will send the message to another consumer in the group._
 ## Step 6: Clean up
 
 Run the test DeleteTestTopic under ConfluentCloud to delete the topic.
-
+Run the test DeleteSchema under Schema to delete the schema, since it won't be deleted when the topic is deleted.

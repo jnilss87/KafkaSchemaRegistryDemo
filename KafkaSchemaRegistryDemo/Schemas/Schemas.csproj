@@ -20,6 +20,21 @@
   <!-- This is used to generate from c# from protos when ide is using DEBUG -->
   <ItemGroup Condition="'$(Configuration)'=='DEBUG'">
     <Protobuf Include="Protos/**/*.proto" OutputDir="%(RelativeDir)..\..\Protos\Generated" ProtoRoot="Protos" CompileOutputs="false" GrpcServices="None"/>
+    <Protobuf Update="Protos\V2\Chat.proto">
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+    <Protobuf Update="Protos\V3\Chat.proto">
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+    <Protobuf Update="Protos\V4\Chat.proto">
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
   </ItemGroup>
   
 </Project>
