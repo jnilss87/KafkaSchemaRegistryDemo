@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package chat.v3incompatible;
+
+// Represents a user in the chat service
+message User {
+  string id = 1; // Unique ID of the user
+  string name = 2; // Name of the user
+}
+
+message Channel {
+  string id = 1; // Unique ID of the channel
+  string name = 2; // Name of the channel
+}
+
+// Represents a single chat message
+message ChatMessage {
+  User user = 1; // User who sent the message
+  int64 timestamp = 2; // Timestamp of the message
+  string content = 3; // Content of the message
+  Channel channel = 4; // Channel where the message was sent
+}

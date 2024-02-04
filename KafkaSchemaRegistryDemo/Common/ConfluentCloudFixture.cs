@@ -19,7 +19,7 @@ public class ConfluentCloudFixture
 
     private static readonly ConsumerConfig ConsumerConfig = new(ClientConfig)
     {
-        GroupId = "example-one",
+        GroupId = "consumer-group",
         AutoOffsetReset = AutoOffsetReset.Earliest
     };
 
@@ -81,10 +81,10 @@ public class ConfluentCloudFixture
         return new(SchemaRegistryConfig());
     }
 
-    public async Task DeleteSubject(string subject)
+    public async Task DeleteSubject(string subject, bool permanent = false)
     {
         var httpClient = GetSchemaRegistryHttpClient();
-        var responseMessage = await httpClient.DeleteAsync($"/subjects/{subject}?permanent=true");
+        var responseMessage = await httpClient.DeleteAsync($"/subjects/{subject}?permanent={permanent}");
 
         // Exception if not successful
         if (!responseMessage.IsSuccessStatusCode)

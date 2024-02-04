@@ -35,6 +35,16 @@
       <ProtoCompile>True</ProtoCompile>
       <Generator>MSBuild:Compile</Generator>
     </Protobuf>
+    <Protobuf Update="Protos\V2-incompatible\Chat.proto">
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+    <Protobuf Update="Protos\V3-incompatible\Chat.proto">
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
   </ItemGroup>
   
 </Project>
