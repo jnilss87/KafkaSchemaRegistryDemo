@@ -1,22 +1,35 @@
 syntax = "proto3";
 
-package chat.v4;
+package chat.v5;
+
+// This is not compatible with the previous version of the chat service
+
+// Aggregates all the messages that can be sent on the chat topic
+message ChatServer {
+  oneof one_of {
+    ChatMessage chatMessage = 1;
+    ServerPermission serverPermission = 2;
+    Server server = 3;
+    User user = 4;
+  }
+}
 
 // Represents a user in the chat service
 message User {
   string id = 1; // Unique ID of the user
   string name = 2; // Name of the user
-  repeated ServerPermission serverPermissions = 3; // Permissions of the user for servers
 }
 
 // Represents a server in the chat service
 message Server {
   string id = 1; // Unique ID of the server
   string name = 2; // Name of the server
+  repeated Channel channels = 3; // Channels in the server
 }
 
 // Represents a server permission for a user
 message ServerPermission {
+  string userId = 1; // ID of the user
   string serverId = 2; // ID of the server
   string permissionLevel = 3; // Permission level of the user for the server
 }
@@ -24,15 +37,12 @@ message ServerPermission {
 message Channel {
   string id = 1; // Unique ID of the channel
   string name = 2; // Name of the channel
-  Server server = 3; // Server where the channel is located
 }
 
 // Represents a single chat message
 message ChatMessage {
-  User user = 1; // User who sent the message
+  string userId = 1; // ID of the user who sent the message
   int64 timestamp = 2; // Timestamp of the message
   string content = 3; // Content of the message
-  // mark as deprecated string channel = 4;
-  reserved 4;
-  Channel channel = 5; // Channel where the message was sent
+  string channelId = 4; // ID of the channel where the message was sent
 }

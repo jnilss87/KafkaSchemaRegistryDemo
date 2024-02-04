@@ -34,8 +34,6 @@ public class ConfluentCloudFixture
             BasicAuthUserInfo = "", // TODO: Add the schema registry API key and secret <api-key>:<api-secret>
             Url = "" // TODO: Add the schema registry URL
         };
-        config.Set("auto.register.schemas",
-            "false"); // "true" or "false" (defaults to "true"), used to enable or disable automatic registration of schemas
         return config;
     }
 

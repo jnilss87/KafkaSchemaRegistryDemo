@@ -44,10 +44,13 @@ public class Producer(ConfluentCloudFixture fixture, ITestOutputHelper testOutpu
     [Fact]
     public async Task ProduceProtobufMessages()
     {
-        var schmeaRegistry = fixture.CreateSchemaRegistryClient();
-        var protobufSerializer = new ProtobufSerializer<Chat.V1.ChatMessage>(schmeaRegistry);
+        var schemaRegistry = fixture.CreateSchemaRegistryClient();
+        var protobufSerializer = new ProtobufSerializer<Chat.V1.ChatMessage>(schemaRegistry, new ProtobufSerializerConfig
+        {
+            AutoRegisterSchemas = false
+        });
         var producer = fixture.CreateProducer(protobufSerializer);
-        var autoFixture = new AutoFixture.Fixture();
+        var autoFixture = new Fixture();
 
         for (var i = 0; i < 60; i++)
         {

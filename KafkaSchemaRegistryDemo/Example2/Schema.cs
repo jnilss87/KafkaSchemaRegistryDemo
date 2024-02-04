@@ -1,6 +1,7 @@
 ﻿using Common;
 using Confluent.SchemaRegistry;
 using Schemas;
+using Xunit;
 using Xunit.Abstractions;
 
 namespace Example2;
