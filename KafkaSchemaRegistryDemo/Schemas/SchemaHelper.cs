@@ -2,7 +2,6 @@
 
 public static class SchemaHelper
 {
-    // read content of file /Protos/V1/ChatMessage.proto
     public static string GetSchemaChatMessageV1() => GetSchemaChatMessage(1);
     public static string GetSchemaChatMessageV2() => GetSchemaChatMessage(2);
     public static string GetSchemaChatMessageV3() => GetSchemaChatMessage(3);
