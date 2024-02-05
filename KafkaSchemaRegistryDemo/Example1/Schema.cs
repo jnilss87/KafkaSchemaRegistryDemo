@@ -28,9 +28,15 @@ public class Schema(ConfluentCloudFixture fixture, ITestOutputHelper testOutputH
     }
 
     [Fact]
-    public async Task DeleteSchema()
+    public async Task DeleteSchemasSoft()
     {
         await fixture.DeleteSubject(Example1Config.Topic + "-value");
+    }
+
+    [Fact]
+    public async Task DeleteSchemasPermanent()
+    {
+        await fixture.DeleteSubject(Example1Config.Topic + "-value", permanent: true);
     }
 
 

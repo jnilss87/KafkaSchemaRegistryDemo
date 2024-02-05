@@ -66,7 +66,7 @@ Abort the test after a few seconds.
 
 ## Step 5: Send a message that does not conform to the schema
 
-We made a mistake while deploying the application and we started to send messages with the old byte array format.
+We made a mistake while deploying the application, and we started to send messages with the old byte array format.
 
 ### Step 5.1: Send messages
 
