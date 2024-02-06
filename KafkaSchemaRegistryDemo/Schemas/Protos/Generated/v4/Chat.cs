@@ -27,19 +27,19 @@ namespace Chat.V4 {
             "Cg1WNC9DaGF0LnByb3RvEgdjaGF0LnY0IlYKBFVzZXISCgoCaWQYASABKAkS",
             "DAoEbmFtZRgCIAEoCRI0ChFzZXJ2ZXJQZXJtaXNzaW9ucxgDIAMoCzIZLmNo",
             "YXQudjQuU2VydmVyUGVybWlzc2lvbiIiCgZTZXJ2ZXISCgoCaWQYASABKAkS",
-            "DAoEbmFtZRgCIAEoCSI9ChBTZXJ2ZXJQZXJtaXNzaW9uEhAKCHNlcnZlcklk",
-            "GAIgASgJEhcKD3Blcm1pc3Npb25MZXZlbBgDIAEoCSJECgdDaGFubmVsEgoK",
-            "AmlkGAEgASgJEgwKBG5hbWUYAiABKAkSHwoGc2VydmVyGAMgASgLMg8uY2hh",
-            "dC52NC5TZXJ2ZXIidwoLQ2hhdE1lc3NhZ2USGwoEdXNlchgBIAEoCzINLmNo",
-            "YXQudjQuVXNlchIRCgl0aW1lc3RhbXAYAiABKAMSDwoHY29udGVudBgDIAEo",
-            "CRIhCgdjaGFubmVsGAUgASgLMhAuY2hhdC52NC5DaGFubmVsSgQIBBAFYgZw",
-            "cm90bzM="));
+            "DAoEbmFtZRgCIAEoCSJNChBTZXJ2ZXJQZXJtaXNzaW9uEg4KBnVzZXJJZBgB",
+            "IAEoCRIQCghzZXJ2ZXJJZBgCIAEoCRIXCg9wZXJtaXNzaW9uTGV2ZWwYAyAB",
+            "KAkiRAoHQ2hhbm5lbBIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEh8KBnNl",
+            "cnZlchgDIAEoCzIPLmNoYXQudjQuU2VydmVyIncKC0NoYXRNZXNzYWdlEhsK",
+            "BHVzZXIYASABKAsyDS5jaGF0LnY0LlVzZXISEQoJdGltZXN0YW1wGAIgASgD",
+            "Eg8KB2NvbnRlbnQYAyABKAkSIQoHY2hhbm5lbBgFIAEoCzIQLmNoYXQudjQu",
+            "Q2hhbm5lbEoECAQQBWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Chat.V4.User), global::Chat.V4.User.Parser, new[]{ "Id", "Name", "ServerPermissions" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Chat.V4.Server), global::Chat.V4.Server.Parser, new[]{ "Id", "Name" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Chat.V4.ServerPermission), global::Chat.V4.ServerPermission.Parser, new[]{ "ServerId", "PermissionLevel" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Chat.V4.ServerPermission), global::Chat.V4.ServerPermission.Parser, new[]{ "UserId", "ServerId", "PermissionLevel" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Chat.V4.Channel), global::Chat.V4.Channel.Parser, new[]{ "Id", "Name", "Server" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Chat.V4.ChatMessage), global::Chat.V4.ChatMessage.Parser, new[]{ "User", "Timestamp", "Content", "Channel" }, null, null, null, null)
           }));
@@ -587,6 +587,7 @@ namespace Chat.V4 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public ServerPermission(ServerPermission other) : this() {
+      userId_ = other.userId_;
       serverId_ = other.serverId_;
       permissionLevel_ = other.permissionLevel_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
@@ -596,6 +597,21 @@ namespace Chat.V4 {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public ServerPermission Clone() {
       return new ServerPermission(this);
+    }
+
+    /// <summary>Field number for the "userId" field.</summary>
+    public const int UserIdFieldNumber = 1;
+    private string userId_ = "";
+    /// <summary>
+    /// ID of the user
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string UserId {
+      get { return userId_; }
+      set {
+        userId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
     }
 
     /// <summary>Field number for the "serverId" field.</summary>
@@ -643,6 +659,7 @@ namespace Chat.V4 {
       if (ReferenceEquals(other, this)) {
         return true;
       }
+      if (UserId != other.UserId) return false;
       if (ServerId != other.ServerId) return false;
       if (PermissionLevel != other.PermissionLevel) return false;
       return Equals(_unknownFields, other._unknownFields);
@@ -652,6 +669,7 @@ namespace Chat.V4 {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
+      if (UserId.Length != 0) hash ^= UserId.GetHashCode();
       if (ServerId.Length != 0) hash ^= ServerId.GetHashCode();
       if (PermissionLevel.Length != 0) hash ^= PermissionLevel.GetHashCode();
       if (_unknownFields != null) {
@@ -672,6 +690,10 @@ namespace Chat.V4 {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
+      if (UserId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(UserId);
+      }
       if (ServerId.Length != 0) {
         output.WriteRawTag(18);
         output.WriteString(ServerId);
@@ -690,6 +712,10 @@ namespace Chat.V4 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (UserId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(UserId);
+      }
       if (ServerId.Length != 0) {
         output.WriteRawTag(18);
         output.WriteString(ServerId);
@@ -708,6 +734,9 @@ namespace Chat.V4 {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
+      if (UserId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(UserId);
+      }
       if (ServerId.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(ServerId);
       }
@@ -725,6 +754,9 @@ namespace Chat.V4 {
     public void MergeFrom(ServerPermission other) {
       if (other == null) {
         return;
+      }
+      if (other.UserId.Length != 0) {
+        UserId = other.UserId;
       }
       if (other.ServerId.Length != 0) {
         ServerId = other.ServerId;
@@ -747,6 +779,10 @@ namespace Chat.V4 {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
+          case 10: {
+            UserId = input.ReadString();
+            break;
+          }
           case 18: {
             ServerId = input.ReadString();
             break;
@@ -770,6 +806,10 @@ namespace Chat.V4 {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
+          case 10: {
+            UserId = input.ReadString();
+            break;
+          }
           case 18: {
             ServerId = input.ReadString();
             break;

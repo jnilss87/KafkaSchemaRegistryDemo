@@ -17,6 +17,7 @@ message Server {
 
 // Represents a server permission for a user
 message ServerPermission {
+  string userId = 1; // ID of the user
   string serverId = 2; // ID of the server
   string permissionLevel = 3; // Permission level of the user for the server
 }
